@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/newsListFragment">
+
+    <fragment
+        android:id="@+id/newsListFragment"
+        android:name="com.krachkovsky.it_anews.ui.fragments.NewsListFragment"
+        android:label="NewsListFragment">
+        <action
+            android:id="@+id/action_newsListFragment_to_newsArticleFragment"
+            app:destination="@id/newsArticleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsArticleFragment"
+        android:name="com.krachkovsky.it_anews.ui.fragments.NewsArticleFragment"
+        android:label="NewsArticleFragment">
+
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+</navigation>
