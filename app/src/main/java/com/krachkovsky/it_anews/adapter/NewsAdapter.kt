@@ -10,8 +10,6 @@ import com.krachkovsky.it_anews.databinding.NewsItemBinding
 import com.krachkovsky.it_anews.databinding.NewsLoadingBinding
 import com.krachkovsky.it_anews.models.Article
 import com.krachkovsky.it_anews.models.PagingData
-import com.krachkovsky.it_anews.util.Constants.TYPE_LOADING
-import com.krachkovsky.it_anews.util.Constants.TYPE_USER
 
 class NewsAdapter(
     private val onArticleClicked: (Article) -> Unit
@@ -66,5 +64,9 @@ class NewsAdapter(
                 return oldNews?.data == newNews?.data
             }
         }
+
+        private const val TYPE_USER = 1
+        private const val TYPE_LOADING = 2
+
     }
 }

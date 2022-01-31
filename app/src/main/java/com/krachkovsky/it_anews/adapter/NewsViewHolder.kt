@@ -18,9 +18,7 @@ class NewsViewHolder(
                 scale(Scale.FIT)
                 size(ViewSizeResolver(root))
             }
-            if (article.author != null) {
-                tvAuthor.text = article.author
-            }
+            tvAuthor.text = article.author
             tvPublished.text = article.publishedAt
             tvTitle.text = article.title
             tvSource.text = article.source.name

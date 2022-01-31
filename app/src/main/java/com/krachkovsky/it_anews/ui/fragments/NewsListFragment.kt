@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +38,6 @@ class NewsListFragment : Fragment() {
     private var currentPage = 1
 
     var isLoading = false
-    var isLastPage = false
-    var isScrolling = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,55 +72,45 @@ class NewsListFragment : Fragment() {
 //                    }
 //                })
 
-            val layoutManager = LinearLayoutManager(
-                view.context, LinearLayoutManager.VERTICAL, false
-            )
+            val layoutManager = LinearLayoutManager(view.context)
             recyclerList.adapter = adapter
             recyclerList.layoutManager = layoutManager
             recyclerList.addHorizontalSpaceDecoration(RECYCLER_ITEM_SPACE)
-            recyclerList.addOnScrollListener(scrollListener)
+            recyclerList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val totalItemCount = layoutManager.itemCount
+                    val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                    if (!isLoading && dy != 0 && totalItemCount <= (lastVisibleItem + QUERY_PAGE_SIZE)) {
+                        recyclerView.post {
+                            loadNews()
+                        }
+                    }
+                }
+            })
 
             swipeRefreshList.setOnRefreshListener {
                 adapter.submitList(emptyList())
                 currentPage = 1
-                loadNews()
-                swipeRefreshList.isRefreshing = false
-            }
-
-        }
-    }
-
-    private val scrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-            val visibleItemCount = layoutManager.childCount
-            val totalItemCount = layoutManager.itemCount
-
-            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
-            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
-            val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
-            val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
-                    isTotalMoreThanVisible && isScrolling
-            if (shouldPaginate) {
-                loadNews()
-                isScrolling = false
-            }
-        }
-
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                isScrolling = true
+                loadNews {
+                    swipeRefreshList.isRefreshing = false
+                }
             }
         }
     }
 
+    private fun loadNews(onLoadingFinished: () -> Unit = {}) {
+        if (isLoading) return
 
-    private fun loadNews() {
+        isLoading = true
+
+        val loadingFinishedCallback = {
+            isLoading = false
+            onLoadingFinished()
+        }
+
         NewsService.newsApi.getAllNews(
             page = currentPage,
             pageSize = QUERY_PAGE_SIZE
@@ -141,15 +128,17 @@ class NewsListFragment : Fragment() {
                             .plus(PagingData.Loading)
                         adapter.submitList(newList)
                         currentPage++
-                        Log.d("AAA onResponse", "Success ${response.body().toString()}")
+                        Log.d("AAA onResponse", "Success ${response.body()}")
                     } else {
                         handleErrors(response.errorBody()?.string() ?: GENERAL_ERROR_MESSAGE)
                     }
+                    loadingFinishedCallback()
                 }
 
                 override fun onFailure(call: Call<NewsEverything>, t: Throwable) {
                     handleErrors(t.message ?: GENERAL_ERROR_MESSAGE)
                     Log.d("AAA onFailure", "Failure ${t.message}")
+                    loadingFinishedCallback()
                 }
             })
     }

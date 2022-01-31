@@ -35,7 +35,7 @@ class NewsArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var article = args.url
+        val article = args.url
         with(binding) {
             webView.apply {
                 webViewClient = WebViewClient()
