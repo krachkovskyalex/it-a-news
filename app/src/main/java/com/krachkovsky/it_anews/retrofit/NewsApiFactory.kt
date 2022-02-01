@@ -7,22 +7,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
-object NewsService {
-    private val retrofit by lazy(LazyThreadSafetyMode.NONE) { provideRetrofit() }
-    val newsApi by lazy(LazyThreadSafetyMode.NONE) {
-        retrofit.create<NewsApi>()
-    }
+class NewsApiFactory {
 
-    private fun provideRetrofit(): Retrofit {
+    private val retrofit by lazy(LazyThreadSafetyMode.NONE) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
-        return Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
     }
+
+    fun provideApi() = retrofit.create<NewsApi>()
 }

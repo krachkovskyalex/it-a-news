@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface NewsApi {
     @GET("everything")
-    fun getAllNews(
+    suspend fun getAllNews(
         @Query("q")
         q: String = "Belarus",
         @Query("page")
@@ -17,5 +17,5 @@ interface NewsApi {
         pageSize: Int,
         @Query("apiKey")
         apiKey: String = API_KEY
-    ): Call<NewsEverything>
+    ): NewsEverything
 }

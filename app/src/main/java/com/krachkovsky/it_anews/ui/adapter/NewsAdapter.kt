@@ -1,6 +1,5 @@
-package com.krachkovsky.it_anews.adapter
+package com.krachkovsky.it_anews.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -43,7 +42,6 @@ class NewsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val article = (getItem(position) as? PagingData.Content)?.data ?: return
         (holder as? NewsViewHolder)?.bind(article)
-        Log.d("AAA onBindViewHolder", "onBindViewHolder + position $position: $article")
     }
 
     companion object {

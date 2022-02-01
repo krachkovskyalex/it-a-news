@@ -1,43 +1,53 @@
 package com.krachkovsky.it_anews.ui.fragments
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.krachkovsky.it_anews.adapter.NewsAdapter
 import com.krachkovsky.it_anews.databinding.FragmentListBinding
-import com.krachkovsky.it_anews.models.NewsEverything
+import com.krachkovsky.it_anews.extention.addHorizontalSpaceDecoration
+import com.krachkovsky.it_anews.extention.onPaginationScrollListener
+import com.krachkovsky.it_anews.extention.onRefreshListener
 import com.krachkovsky.it_anews.models.PagingData
-import com.krachkovsky.it_anews.retrofit.NewsService
-import com.krachkovsky.it_anews.util.Constants.GENERAL_ERROR_MESSAGE
-import com.krachkovsky.it_anews.util.Constants.QUERY_PAGE_SIZE
-import com.krachkovsky.it_anews.util.Constants.RECYCLER_ITEM_SPACE
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.krachkovsky.it_anews.provider.ServiceProvider
+import com.krachkovsky.it_anews.ui.NewsViewModel
+import com.krachkovsky.it_anews.ui.adapter.NewsAdapter
+import com.krachkovsky.it_anews.util.Constants
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 class NewsListFragment : Fragment() {
+
     private var _binding: FragmentListBinding? = null
     private val binding
         get() = requireNotNull(_binding) {
             "View was destroyed"
         }
+
+    private val viewModel by viewModels<NewsViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return NewsViewModel(ServiceProvider.provideNewsApi()) as T
+            }
+        }
+    }
+
     private val adapter = NewsAdapter { article ->
         findNavController().navigate(
             NewsListFragmentDirections.actionNewsListFragmentToNewsArticleFragment(article.url)
         )
     }
-
-    private var currentPage = 1
-
-    var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,134 +64,60 @@ class NewsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadNews()
-
         with(binding) {
-//            toolbarList.menu
-//                .findItem(R.id.action_search)
-//                .let { it.actionView as SearchView }
-//                .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//                    override fun onQueryTextSubmit(query: String): Boolean {
-//                        return true
-//                    }
-//
-//                    override fun onQueryTextChange(newText: String): Boolean {
-//                        searchNews(newText)
-//                        Log.d("AAA search newText", newText)
-//                        return false
-//                    }
-//                })
-
             val layoutManager = LinearLayoutManager(view.context)
+
             recyclerList.adapter = adapter
             recyclerList.layoutManager = layoutManager
+
             recyclerList.addHorizontalSpaceDecoration(RECYCLER_ITEM_SPACE)
-            recyclerList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
 
-                    val totalItemCount = layoutManager.itemCount
-                    val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+            recyclerList.onPaginationScrollListener(layoutManager, viewModel.isLoading, ITEMS_TO_LOAD)
+                .onEach {
+                    viewModel.onLoadMore()
+                    Log.d(Constants.TAG, "NewsFragment -> onPaginationScrollListener")
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
 
-                    if (!isLoading && dy != 0 && totalItemCount <= (lastVisibleItem + QUERY_PAGE_SIZE)) {
-                        recyclerView.post {
-                            loadNews()
-                        }
+            swipeRefreshList
+                .onRefreshListener()
+                .onEach {
+                    adapter.submitList(emptyList())
+                    viewModel.onRefresh()
+                    Log.d(Constants.TAG, "NewsFragment -> onPaginationScrollListener")
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+
+            viewModel
+                .newsFlow
+                .onEach {
+                    if (swipeRefreshList.isRefreshing) {
+                        swipeRefreshList.isRefreshing = false
                     }
                 }
-            })
-
-            swipeRefreshList.setOnRefreshListener {
-                adapter.submitList(emptyList())
-                currentPage = 1
-                loadNews {
-                    swipeRefreshList.isRefreshing = false
+                .map { news ->
+                    adapter.currentList
+                        .dropLastWhile { it == PagingData.Loading }
+                        .plus(news.map { PagingData.Content(it) })
+                        .plus(PagingData.Loading)
                 }
-            }
+                .onEach(adapter::submitList)
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+
+            viewModel
+                .errorsFlow
+                .onEach { error ->
+                    Snackbar.make(
+                        view,
+                        error.message ?: GENERIC_ERROR_MESSAGE,
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .setAction(android.R.string.ok) {}
+                        .show()
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+
         }
-    }
-
-    private fun loadNews(onLoadingFinished: () -> Unit = {}) {
-        if (isLoading) return
-
-        isLoading = true
-
-        val loadingFinishedCallback = {
-            isLoading = false
-            onLoadingFinished()
-        }
-
-        NewsService.newsApi.getAllNews(
-            page = currentPage,
-            pageSize = QUERY_PAGE_SIZE
-        )
-            .enqueue(object : Callback<NewsEverything> {
-                override fun onResponse(
-                    call: Call<NewsEverything>,
-                    response: Response<NewsEverything>
-                ) {
-                    if (response.isSuccessful) {
-                        val newList = adapter.currentList
-                            .dropLastWhile { it == PagingData.Loading }
-                            .plus(response.body()?.articles?.map { PagingData.Content(it) }
-                                .orEmpty())
-                            .plus(PagingData.Loading)
-                        adapter.submitList(newList)
-                        currentPage++
-                        Log.d("AAA onResponse", "Success ${response.body()}")
-                    } else {
-                        handleErrors(response.errorBody()?.string() ?: GENERAL_ERROR_MESSAGE)
-                    }
-                    loadingFinishedCallback()
-                }
-
-                override fun onFailure(call: Call<NewsEverything>, t: Throwable) {
-                    handleErrors(t.message ?: GENERAL_ERROR_MESSAGE)
-                    Log.d("AAA onFailure", "Failure ${t.message}")
-                    loadingFinishedCallback()
-                }
-            })
-    }
-
-//    private fun searchNews(query: String) {
-//        NewsService.newsApi.getAllNews(
-//            q = query,
-//            page = currentPage,
-//            pageSize = QUERY_PAGE_SIZE
-//        )
-//            .enqueue(object : Callback<NewsEverything> {
-//                override fun onResponse(
-//                    call: Call<NewsEverything>,
-//                    response: Response<NewsEverything>
-//                ) {
-//                    if (response.isSuccessful) {
-//                        val newList = adapter.currentList
-//                            .dropLastWhile { it == PagingData.Loading }
-//                            .plus(response.body()?.articles?.map { PagingData.Content(it) }
-//                                .orEmpty())
-//                            .plus(PagingData.Loading)
-//                        adapter.submitList(newList)
-//                        if (response.body()?.totalResults!! < currentPage * QUERY_PAGE_SIZE) {
-//                            currentPage++
-//                        }
-//                        Log.d("AAA onResponse", "Success ${response.body().toString()}")
-//                    } else {
-//                        handleErrors(response.errorBody()?.string() ?: GENERAL_ERROR_MESSAGE)
-//                        Log.d("AAA onResponse else", "Else Success ${response.body().toString()}")
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<NewsEverything>, t: Throwable) {
-//                    handleErrors(t.message ?: GENERAL_ERROR_MESSAGE)
-//                    Log.d("AAA onFailure", "Failure ${t.message}")
-//                }
-//            })
-//    }
-
-    private fun handleErrors(errorMessage: String) {
-        Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_SHORT)
-            .setAction(android.R.string.ok) {}
-            .show()
     }
 
     override fun onDestroyView() {
@@ -189,21 +125,10 @@ class NewsListFragment : Fragment() {
         _binding = null
     }
 
-    private fun RecyclerView.addHorizontalSpaceDecoration(space: Int) {
-        addItemDecoration(
-            object : RecyclerView.ItemDecoration() {
-                override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-                ) {
-                    val position = parent.getChildAdapterPosition(view)
-                    if (position != 0 && position != parent.adapter?.itemCount) {
-                        outRect.top = space
-                    }
-                }
-            }
-        )
+    companion object {
+        private const val RECYCLER_ITEM_SPACE = 50
+        private const val ITEMS_TO_LOAD = 15
+
+        private const val GENERIC_ERROR_MESSAGE = "Something went wrong"
     }
 }
