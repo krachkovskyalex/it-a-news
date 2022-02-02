@@ -1,7 +1,6 @@
 package com.krachkovsky.it_anews.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
+import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.databinding.FragmentArticleBinding
 
 class NewsArticleFragment : Fragment() {
+
     private var _binding: FragmentArticleBinding? = null
     private val binding
         get() = requireNotNull(_binding) {
@@ -40,11 +41,10 @@ class NewsArticleFragment : Fragment() {
             webView.apply {
                 webViewClient = WebViewClient()
                 loadUrl(article)
-                Log.d("ALITag", "ArticleFragment: webView.apply " + hashCode())
             }
             toolbarArticle.setupWithNavController(findNavController())
+            toolbarArticle.setTitle(R.string.news_article)
         }
-
     }
 
     override fun onDestroyView() {

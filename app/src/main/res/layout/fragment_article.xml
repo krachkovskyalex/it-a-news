@@ -9,9 +9,10 @@
         android:id="@+id/toolbar_article"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"
+        android:background="@color/purple_500"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="News Article" />
+        app:title="@string/news_article"
+        app:titleTextColor="@color/white" />
 
     <WebView
         android:id="@+id/webView"
