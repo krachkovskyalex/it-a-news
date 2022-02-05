@@ -1,5 +1,6 @@
 package com.krachkovsky.it_anews.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -9,13 +10,13 @@ import com.krachkovsky.it_anews.models.Article
 import java.io.Serializable
 
 class NewsAdapter(
+    context: Context,
     private val onArticleClicked: (Article) -> Unit
 ) : PagingDataAdapter<Article, NewsViewHolder>(DIFF_CALLBACK), Serializable {
 
+    private val layoutInflater = LayoutInflater.from(context)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-
-        val layoutInflater = LayoutInflater.from(parent.context)
-
         return NewsViewHolder(
             binding = NewsItemBinding.inflate(layoutInflater, parent, false),
             onArticleClicked = onArticleClicked

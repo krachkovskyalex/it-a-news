@@ -32,6 +32,7 @@
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             tools:itemCount="20"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/news_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

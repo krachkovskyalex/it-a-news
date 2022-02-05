@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.krachkovsky.it_anews.databinding.FragmentListBinding
 import com.krachkovsky.it_anews.extention.addHorizontalSpaceDecoration
@@ -35,7 +34,7 @@ class NewsListFragment : Fragment() {
     private val viewModel by viewModel<NewsViewModel>()
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        NewsAdapter { article ->
+        NewsAdapter(requireContext()) { article ->
             findNavController().navigate(
                 NewsListFragmentDirections.actionNewsListFragmentToNewsArticleFragment(article.url)
             )
@@ -58,13 +57,10 @@ class NewsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            val layoutManager = LinearLayoutManager(view.context)
-
             recyclerList.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = NewsLoadStateAdapter(),
                 footer = NewsLoadStateAdapter()
             )
-            recyclerList.layoutManager = layoutManager
             recyclerList.addHorizontalSpaceDecoration(RECYCLER_ITEM_SPACE)
 
             swipeRefreshList
