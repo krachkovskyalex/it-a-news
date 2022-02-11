@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -57,6 +60,17 @@ class NewsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
+                val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                appBarList.updatePadding(
+                    top = inset.top,
+                )
+                swipeRefreshList.updatePadding(
+                    bottom = inset.bottom
+                )
+                insets
+            }
+
             recyclerList.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = NewsLoadStateAdapter(),
                 footer = NewsLoadStateAdapter()

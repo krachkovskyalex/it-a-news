@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_error">Что-то пошло не так…</string>
+    <string name="news_article">Новость</string>
+    <string name="news_list">Список новостей</string>
+</resources>

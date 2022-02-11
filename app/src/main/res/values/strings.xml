@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">IT-A News</string>
-    <string name="global_error">Something went wrong...</string>
+    <string name="app_name" translatable="false">IT-A News</string>
+
+    <string name="global_error">Something went wrong…</string>
     <string name="news_article">News Article</string>
     <string name="news_list">News List</string>
 </resources>
