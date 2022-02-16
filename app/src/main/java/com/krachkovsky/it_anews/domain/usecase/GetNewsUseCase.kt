@@ -6,7 +6,7 @@ import com.krachkovsky.it_anews.domain.repository.NewsRepository
 
 class GetNewsUseCase(private val newsRepository: NewsRepository) {
 
-    suspend operator fun invoke(page: Int, pageSize: Int): NewsEverything {
-        return newsRepository.getAllNews(page, pageSize).toDomainModel()
+    suspend operator fun invoke(page: Int, pageSize: Int, newsCategory: String): NewsEverything {
+        return newsRepository.getAllNews(page, pageSize, newsCategory).toDomainModel()
     }
 }

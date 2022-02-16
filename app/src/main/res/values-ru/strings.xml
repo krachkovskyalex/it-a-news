@@ -3,4 +3,13 @@
     <string name="global_error">Что-то пошло не так…</string>
     <string name="news_article">Новость</string>
     <string name="news_list">Список новостей</string>
+    <string-array name="news_category_list">
+        <item>Главная</item>
+        <item>Бизнес</item>
+        <item>Развлечения</item>
+        <item>Здоровье</item>
+        <item>Наука</item>
+        <item>Спорт</item>
+        <item>Технологии</item>
+    </string-array>
 </resources>

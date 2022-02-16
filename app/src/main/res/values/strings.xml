@@ -4,4 +4,13 @@
     <string name="global_error">Something went wrong…</string>
     <string name="news_article">News Article</string>
     <string name="news_list">News List</string>
+    <string-array name="news_category_list">
+        <item>General</item>
+        <item>Business</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Science</item>
+        <item>Sports</item>
+        <item>Technology</item>
+    </string-array>
 </resources>

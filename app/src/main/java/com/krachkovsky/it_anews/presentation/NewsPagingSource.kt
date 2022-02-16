@@ -5,14 +5,17 @@ import androidx.paging.PagingState
 import com.krachkovsky.it_anews.domain.models.Article
 import com.krachkovsky.it_anews.domain.usecase.GetNewsUseCase
 
-class NewsPagingSource(private val getNewsUseCase: GetNewsUseCase) : PagingSource<Int, Article>() {
+class NewsPagingSource(
+    private val getNewsUseCase: GetNewsUseCase,
+    private val newsCategory: String
+) : PagingSource<Int, Article>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
 
         val nextPage = params.key ?: 1
         val loadSize = params.loadSize.coerceAtMost(MAX_PAGE_SIZE)
 
-        return runCatching { getNewsUseCase(nextPage, loadSize) }
+        return runCatching { getNewsUseCase(nextPage, loadSize, newsCategory) }
             .fold(
                 onSuccess = { news ->
                     val articles = news.articles

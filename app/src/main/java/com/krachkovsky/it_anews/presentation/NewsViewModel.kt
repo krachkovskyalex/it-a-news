@@ -9,6 +9,8 @@ import com.krachkovsky.it_anews.domain.usecase.GetNewsUseCase
 
 class NewsViewModel(private val getNewsUseCase: GetNewsUseCase) : ViewModel() {
 
+    var newsCategory: String = "general"
+
     val pagingFlow = Pager(
         PagingConfig(
             pageSize = PAGE_SIZE,
@@ -16,7 +18,7 @@ class NewsViewModel(private val getNewsUseCase: GetNewsUseCase) : ViewModel() {
             prefetchDistance = PREFETCH_DISTANCE,
             enablePlaceholders = false
         )
-    ) { NewsPagingSource(getNewsUseCase) }
+    ) { NewsPagingSource(getNewsUseCase, newsCategory) }
         .flow
         .cachedIn(viewModelScope)
 

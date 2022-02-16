@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -13,12 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.google.android.material.snackbar.Snackbar
+import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.databinding.FragmentListBinding
 import com.krachkovsky.it_anews.presentation.NewsViewModel
 import com.krachkovsky.it_anews.presentation.adapter.NewsAdapter
 import com.krachkovsky.it_anews.presentation.adapter.NewsLoadStateAdapter
 import com.krachkovsky.it_anews.presentation.extention.addHorizontalSpaceDecoration
 import com.krachkovsky.it_anews.presentation.extention.onRefreshListener
+import com.krachkovsky.it_anews.presentation.extention.toRequestParameter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
@@ -71,6 +75,32 @@ class NewsListFragment : Fragment() {
                     bottom = inset.bottom
                 )
                 insets
+            }
+
+            ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.news_category_list,
+                R.layout.spinner_news_category_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(R.layout.spinner_news_category_dropdown_item)
+                spinnerCategory.adapter = adapter
+            }
+
+            spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.newsCategory = parent?.getItemAtPosition(position)
+                        .toString()
+                        .lowercase()
+                        .toRequestParameter()
+                    adapter.refresh()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
             recyclerList.adapter = adapter.withLoadStateHeaderAndFooter(
