@@ -9,6 +9,5 @@
     android:fontFamily="sans-serif-medium"
     android:singleLine="true"
     android:textAlignment="inherit"
-    android:textColor="#555A5F"
     android:textSize="24sp"
     tools:text="General" />

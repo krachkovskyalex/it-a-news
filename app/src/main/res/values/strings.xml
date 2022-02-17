@@ -2,8 +2,33 @@
     <string name="app_name" translatable="false">IT-A News</string>
 
     <string name="global_error">Something went wrong…</string>
-    <string name="news_article">News Article</string>
-    <string name="news_list">News List</string>
+
+    // Screens
+    <string name="fragment_article_title">News Article</string>
+    <string name="fragment_list_title">News List</string>
+    <string name="fragment_search_title">News Search</string>
+    <string name="fragment_settings_title">News Settings</string>
+
+    // Bottom navigation
+    <string name="bottom_menu_search_title">Search</string>
+    <string name="bottom_menu_home_title">Home</string>
+    <string name="bottom_menu_settings_title">Settings</string>
+
+    // Settings //
+    // Day/Night mode
+    <string name="settings_day_night_mode_title">Display mode</string>
+    <string name="button_day_mode">Day</string>
+    <string name="button_night_mode">Night</string>
+    <string name="button_default_mode">System</string>
+    // Language
+    <string name="settings_language_mode_title">Language</string>
+    <string name="button_language_en">English</string>
+    <string name="button_language_ru">Russian</string>
+
+    // News item
+    <string name="no_author">No author</string>
+
+    // Category for Spinner on Home Screen
     <string-array name="news_category_list">
         <item>General</item>
         <item>Business</item>

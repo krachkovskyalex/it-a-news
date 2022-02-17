@@ -16,4 +16,14 @@ interface NewsApi {
         @Query("pageSize")
         pageSize: Int
     ): NewsApiEverything
+
+    @GET("everything")
+    suspend fun getEverything(
+        @Query("q")
+        q: String,
+        @Query("page")
+        page: Int,
+        @Query("pageSize")
+        pageSize: Int
+    ): NewsApiEverything
 }

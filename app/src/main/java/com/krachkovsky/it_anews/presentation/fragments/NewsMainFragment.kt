@@ -4,29 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebViewClient
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.krachkovsky.it_anews.databinding.FragmentArticleBinding
+import com.krachkovsky.it_anews.R
+import com.krachkovsky.it_anews.databinding.FragmentMainBinding
 
-class NewsArticleFragment : Fragment() {
+class NewsMainFragment : Fragment() {
 
-    private var _binding: FragmentArticleBinding? = null
+    private var _binding: FragmentMainBinding? = null
     private val binding get() = requireNotNull(_binding)
-
-    private val args: NewsArticleFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentArticleBinding.inflate(inflater, container, false)
+        return FragmentMainBinding.inflate(inflater, container, false)
             .also { binding ->
                 _binding = binding
             }
@@ -35,22 +32,21 @@ class NewsArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val article = args.url
 
         with(binding) {
             ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
                 val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarArticle.updatePadding(
-                    top = inset.top,
+                mainBottomNavigation.updatePadding(
+                    bottom = inset.bottom
                 )
                 insets
             }
 
-            webView.apply {
-                webViewClient = WebViewClient()
-                loadUrl(article)
-            }
-            toolbarArticle.setupWithNavController(findNavController())
+            val navController =
+                (childFragmentManager.findFragmentById(R.id.nav_container_fragment_main) as NavHostFragment)
+                    .navController
+            mainBottomNavigation.setupWithNavController(navController)
+
         }
     }
 

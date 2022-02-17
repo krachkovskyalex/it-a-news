@@ -7,41 +7,32 @@
     android:background="?colorOnPrimary">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_list"
+        android:id="@+id/app_bar_search"
         style="@style/Theme.ITANews.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_list"
+            android:id="@+id/toolbar_search"
             style="@style/Theme.ITANews.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/fragment_list_title" />
+            app:menu="@menu/menu_search"
+            app:title="@string/fragment_search_title" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinner_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_list" />
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_list"
+        android:id="@+id/swipe_refresh_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_category">
-
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_search">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_list"
+            android:id="@+id/recycler_search"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:clipToPadding="false"
@@ -53,12 +44,12 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress"
+        android:id="@+id/progress_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_list" />
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_search" />
 </androidx.constraintlayout.widget.ConstraintLayout>
