@@ -14,7 +14,8 @@
         android:theme="@style/Theme.ITANews">
         <activity
             android:name=".presentation.NewsMainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

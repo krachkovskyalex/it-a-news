@@ -2,15 +2,22 @@
     <!-- Base application theme. -->
     <style name="Theme.ITANews" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/primary_night</item>
+        <item name="colorPrimaryVariant">@color/primary_variant_secondary_night</item>
+        <item name="colorOnPrimary">@color/background_night</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/primary_variant_secondary_night</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant_night</item>
+        <item name="colorOnSecondary">@color/surface_on_primary_on_secondary_on_surface_on_error_on_background_night</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="backgroundColor">@color/black</item>
+        <item name="android:textColor">@color/surface_on_primary_on_secondary_on_surface_on_error_on_background_night</item>
+    </style>
+
+    <style name="Theme.ITANews.Toolbar">
+        <item name="titleTextColor">@color/surface_on_primary_on_secondary_on_surface_on_error_on_background_night</item>
+        <item name="android:background">?colorPrimary</item>
     </style>
 </resources>

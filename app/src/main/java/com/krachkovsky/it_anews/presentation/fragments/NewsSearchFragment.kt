@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -12,31 +12,31 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.krachkovsky.it_anews.R
-import com.krachkovsky.it_anews.databinding.FragmentListBinding
+import com.krachkovsky.it_anews.databinding.FragmentSearchBinding
 import com.krachkovsky.it_anews.presentation.adapter.NewsAdapter
 import com.krachkovsky.it_anews.presentation.adapter.NewsLoadStateAdapter
 import com.krachkovsky.it_anews.presentation.extention.addHorizontalSpaceDecoration
-import com.krachkovsky.it_anews.presentation.extention.onCategoryChanged
 import com.krachkovsky.it_anews.presentation.extention.onLoad
 import com.krachkovsky.it_anews.presentation.extention.onRefreshListener
-import com.krachkovsky.it_anews.presentation.viewmodel.NewsListViewModel
+import com.krachkovsky.it_anews.presentation.extention.onTextChanged
+import com.krachkovsky.it_anews.presentation.viewmodel.NewsSearchViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsListFragment : Fragment() {
+class NewsSearchFragment : Fragment() {
 
-    private var _binding: FragmentListBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-    private val viewModel by viewModel<NewsListViewModel>()
+    private val viewModel by viewModel<NewsSearchViewModel>()
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         NewsAdapter(requireContext()) { article ->
             findNavController().navigate(
-                NewsListFragmentDirections.actionNewsListFragmentToNewsArticleFragment(
+                NewsSearchFragmentDirections.actionNewsSearchFragmentToNewsArticleFragment2(
                     article.url
                 )
             )
@@ -48,7 +48,7 @@ class NewsListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentListBinding.inflate(inflater, container, false)
+        return FragmentSearchBinding.inflate(inflater, container, false)
             .also { binding ->
                 _binding = binding
             }
@@ -61,46 +61,39 @@ class NewsListFragment : Fragment() {
         with(binding) {
             ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
                 val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarList.updatePadding(
+                appBarSearch.updatePadding(
                     top = inset.top,
                 )
                 insets
             }
 
-            ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.news_category_list,
-                R.layout.spinner_news_category_item
-            ).also { adapter ->
-                adapter.setDropDownViewResource(R.layout.spinner_news_category_dropdown_item)
-                spinnerCategory.adapter = adapter
-            }
-
-            spinnerCategory
-                .onCategoryChanged()
-                .onEach { category ->
-                    viewModel.onCategoryChanged(category)
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-
-            recyclerList.adapter = adapter.withLoadStateHeaderAndFooter(
+            recyclerSearch.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = NewsLoadStateAdapter(),
                 footer = NewsLoadStateAdapter()
             )
-            recyclerList.addHorizontalSpaceDecoration(RECYCLER_ITEM_SPACE)
+            recyclerSearch.addHorizontalSpaceDecoration(RECYCLER_ITEM_SPACE)
 
-            swipeRefreshList
+            swipeRefreshSearch
                 .onRefreshListener()
                 .onEach { adapter.refresh() }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
 
+            toolbarSearch.menu
+                .findItem(R.id.news_search)
+                .let { it.actionView as SearchView }
+                .onTextChanged()
+                .onEach { query ->
+                    viewModel.onQueryChanger(query)
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.newsFlow
+                viewModel.searchNews
                     .collectLatest(adapter::submitData)
             }
 
             viewLifecycleOwner.lifecycleScope.launch {
-                adapter.onLoad(progress, swipeRefreshList, root)
+                adapter.onLoad(progressSearch, swipeRefreshSearch, root)
             }
         }
     }
@@ -111,6 +104,6 @@ class NewsListFragment : Fragment() {
     }
 
     companion object {
-        private const val RECYCLER_ITEM_SPACE = 40
+        private const val RECYCLER_ITEM_SPACE = 50
     }
 }

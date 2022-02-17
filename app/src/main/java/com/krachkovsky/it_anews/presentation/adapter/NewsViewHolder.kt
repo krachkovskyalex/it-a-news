@@ -18,10 +18,11 @@ class NewsViewHolder(
                 scale(Scale.FIT)
                 size(ViewSizeResolver(root))
             }
-            tvAuthor.text = article.author
-            tvPublished.text = article.publishedAt
+            if (article.title != null)
             tvTitle.text = article.title
-            tvSource.text = article.source.name
+            if (article.description != null)
+            tvDescription.text = article.description
+            tvPublished.text = article.publishedAt
 
             root.setOnClickListener {
                 onArticleClicked(article)

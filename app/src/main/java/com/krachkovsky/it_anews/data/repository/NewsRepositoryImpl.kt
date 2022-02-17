@@ -12,4 +12,11 @@ class NewsRepositoryImpl(private val newsApi: NewsApi) : NewsRepository {
         newsCategory: String
     ): NewsApiEverything =
         newsApi.getTopHeadlines(page = page, pageSize = pageSize, category = newsCategory)
+
+    override suspend fun getSearchNews(
+        page: Int,
+        pageSize: Int,
+        q: String
+    ): NewsApiEverything =
+        newsApi.getEverything(page = page, pageSize = pageSize, q = q)
 }

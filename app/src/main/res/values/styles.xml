@@ -1,2 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <style name="MyCardViewStyle" parent="CardView">
+        <item name="backgroundColor">?colorOnPrimary</item>
+    </style>
+
+    <style name="SettingsTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="RadioButtonStyle" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:button">@null</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:drawableEnd">?android:attr/listChoiceIndicatorSingle</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@null</item>
+    </style>
+
+    <style name="ItemImageStyle">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="ItemTextTitleStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ItemTextDescriptionStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <style name="ItemTextDateStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="SpinnerItemTextStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">inherit</item>
+    </style>
+
+    <style name="SpinnerDropDownTextStyle" parent="SpinnerItemTextStyle">
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:background">?colorPrimaryVariant</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+</resources>
