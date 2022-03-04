@@ -5,12 +5,6 @@
     android:id="@+id/bottom_navigation.xml"
     app:startDestination="@id/navigation_home">
 
-    <fragment
-        android:id="@+id/newsSettingsFragment"
-        android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSettingsFragment"
-        android:label="NewsSittingsFragment"
-        tools:layout="@layout/fragment_settings" />
-
     <navigation
         android:id="@+id/navigation_home"
         app:startDestination="@id/newsListFragment">
@@ -63,5 +57,35 @@
                 android:name="url"
                 app:argType="string" />
         </fragment>
+    </navigation>
+
+    <navigation
+        android:id="@+id/navigation_settings"
+        app:startDestination="@id/newsSettingsFragment">
+
+        <fragment
+            android:id="@+id/newsSettingsFragment"
+            android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSettingsFragment"
+            android:label="@string/fragment_settings_title"
+            tools:layout="@layout/fragment_settings">
+
+            <action
+                android:id="@+id/action_newsSettingsFragment_to_newsSettingsDisplayFragment"
+                app:destination="@id/newsSettingsDisplayFragment" />
+
+            <action
+                android:id="@+id/action_newsSettingsFragment_to_newsSettingsLanguageFragment"
+                app:destination="@id/newsSettingsLanguageFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/newsSettingsDisplayFragment"
+            android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSettingsDisplayFragment"
+            android:label="@string/fragment_settings_display_title" />
+
+        <fragment
+            android:id="@+id/newsSettingsLanguageFragment"
+            android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSettingsLanguageFragment"
+            android:label="@string/fragment_settings_language_title" />
     </navigation>
 </navigation>

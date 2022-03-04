@@ -2,7 +2,8 @@ package com.krachkovsky.it_anews.presentation.extention
 
 fun String.toRequestParameter(): String {
     return when (this) {
-        "главная" -> "general"
+        "все новости" -> "general"
+        "all news" -> "general"
         "бизнес" -> "business"
         "развлечения" -> "entertainment"
         "здоровье" -> "health"

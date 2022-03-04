@@ -8,8 +8,8 @@ class SharedPrefsManager(context: Context) {
 
     private val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    var dayNightMode: DayNightMode by enumPrefs (KEY_DAY_NIGHT_MODE, DayNightMode.SYSTEM)
-    var languageMode: LanguageMode by enumPrefs (KEY_LANGUAGE_MODE, LanguageMode.EN)
+    var dayNightMode: DayNightMode by enumPrefs(KEY_DAY_NIGHT_MODE, DayNightMode.SYSTEM)
+    var languageMode: LanguageMode by enumPrefs(KEY_LANGUAGE_MODE, LanguageMode.EN)
 
     private inline fun <reified E : Enum<E>> enumPrefs(keyMode: String, defaultValue: E) =
         PrefsDelegate(
@@ -17,7 +17,6 @@ class SharedPrefsManager(context: Context) {
             getValue = { getString(keyMode, null)?.let(::enumValueOf) ?: defaultValue },
             setValue = { putString(keyMode, it.name) }
         )
-
 
     companion object {
         private const val PREFS_NAME = "prefs"

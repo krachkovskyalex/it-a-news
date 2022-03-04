@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.krachkovsky.it_anews.databinding.NewsItemBinding
-import com.krachkovsky.it_anews.domain.models.Article
 import java.io.Serializable
 
 class NewsAdapter(
     context: Context,
-    private val onArticleClicked: (Article) -> Unit
-) : PagingDataAdapter<Article, NewsViewHolder>(DIFF_CALLBACK), Serializable {
+    private val onArticleClicked: (krachkovsky.it_anews_domain.models.Article) -> Unit
+) : PagingDataAdapter<krachkovsky.it_anews_domain.models.Article, NewsViewHolder>(DIFF_CALLBACK),
+    Serializable {
 
     private val layoutInflater = LayoutInflater.from(context)
 
@@ -29,14 +29,21 @@ class NewsAdapter(
 
     companion object {
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
-            override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-                return oldItem.url == newItem.url
-            }
+        private val DIFF_CALLBACK =
+            object : DiffUtil.ItemCallback<krachkovsky.it_anews_domain.models.Article>() {
+                override fun areItemsTheSame(
+                    oldItem: krachkovsky.it_anews_domain.models.Article,
+                    newItem: krachkovsky.it_anews_domain.models.Article
+                ): Boolean {
+                    return oldItem.url == newItem.url
+                }
 
-            override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-                return oldItem == newItem
+                override fun areContentsTheSame(
+                    oldItem: krachkovsky.it_anews_domain.models.Article,
+                    newItem: krachkovsky.it_anews_domain.models.Article
+                ): Boolean {
+                    return oldItem == newItem
+                }
             }
-        }
     }
 }

@@ -2,15 +2,13 @@ package com.krachkovsky.it_anews.presentation.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.krachkovsky.it_anews.domain.models.Article
-import com.krachkovsky.it_anews.domain.usecase.GetNewsSearchUseCase
 
 class NewsSearchPagingSource(
-    private val getNewsSearchUseCase: GetNewsSearchUseCase,
+    private val getNewsSearchUseCase: krachkovsky.it_anews_domain.usecase.GetNewsSearchUseCase,
     private val q: String
-) : PagingSource<Int, Article>() {
+) : PagingSource<Int, krachkovsky.it_anews_domain.models.Article>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, krachkovsky.it_anews_domain.models.Article> {
 
         val nextPage = params.key ?: 1
         val loadSize = params.loadSize.coerceAtMost(MAX_PAGE_SIZE)
@@ -39,7 +37,7 @@ class NewsSearchPagingSource(
             )
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, krachkovsky.it_anews_domain.models.Article>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)

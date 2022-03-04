@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.krachkovsky.it_anews.domain.usecase.GetNewsListUseCase
 import com.krachkovsky.it_anews.presentation.pagingsource.NewsListPagingSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
+import krachkovsky.it_anews_domain.usecase.GetNewsListUseCase
 
 class NewsListViewModel(private val getNewsListUseCase: GetNewsListUseCase) : ViewModel() {
 

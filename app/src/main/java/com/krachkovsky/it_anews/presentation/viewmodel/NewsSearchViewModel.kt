@@ -6,14 +6,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.krachkovsky.it_anews.domain.usecase.GetNewsSearchUseCase
 import com.krachkovsky.it_anews.presentation.pagingsource.NewsSearchPagingSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 
-class NewsSearchViewModel(private val getNewsSearchUseCase: GetNewsSearchUseCase) : ViewModel() {
+class NewsSearchViewModel(private val getNewsSearchUseCase: krachkovsky.it_anews_domain.usecase.GetNewsSearchUseCase) :
+    ViewModel() {
 
     private val searchQuery = MutableStateFlow("")
 
@@ -26,7 +26,6 @@ class NewsSearchViewModel(private val getNewsSearchUseCase: GetNewsSearchUseCase
             else flowOf(PagingData.empty())
         }
         .cachedIn(viewModelScope)
-
 
     private fun getSearchNews(query: String) = Pager(
         PagingConfig(

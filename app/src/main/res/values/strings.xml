@@ -8,6 +8,8 @@
     <string name="fragment_list_title">News List</string>
     <string name="fragment_search_title">News Search</string>
     <string name="fragment_settings_title">News Settings</string>
+    <string name="fragment_settings_display_title">Display Settings</string>
+    <string name="fragment_settings_language_title">Language Settings</string>
 
     // Bottom navigation
     <string name="bottom_menu_search_title">Search</string>
@@ -32,7 +34,7 @@
 
     // Category for Spinner on Home Screen
     <string-array name="news_category_list">
-        <item>General</item>
+        <item>All news</item>
         <item>Business</item>
         <item>Entertainment</item>
         <item>Health</item>
