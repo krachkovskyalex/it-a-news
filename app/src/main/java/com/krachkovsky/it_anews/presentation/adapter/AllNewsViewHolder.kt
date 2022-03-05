@@ -5,13 +5,14 @@ import coil.load
 import coil.size.Scale
 import coil.size.ViewSizeResolver
 import com.krachkovsky.it_anews.databinding.NewsItemBinding
+import krachkovsky.it_anews_domain.models.Article
 
-class NewsViewHolder(
+class AllNewsViewHolder(
     private val binding: NewsItemBinding,
-    private val onArticleClicked: (krachkovsky.it_anews_domain.models.Article) -> Unit
+    private val onArticleClicked: (Article) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(article: krachkovsky.it_anews_domain.models.Article) {
+    fun bind(article: Article) {
         with(binding) {
             imageItem.load(article.urlToImage) {
                 scale(Scale.FIT)

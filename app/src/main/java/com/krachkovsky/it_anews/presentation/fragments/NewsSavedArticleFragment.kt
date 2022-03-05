@@ -15,13 +15,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.krachkovsky.it_anews.R
-import com.krachkovsky.it_anews.databinding.FragmentArticleBinding
+import com.krachkovsky.it_anews.databinding.FragmentSavedArticleBinding
 import com.krachkovsky.it_anews.presentation.viewmodel.NewsSavedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsArticleFragment : Fragment() {
+class NewsSavedArticleFragment : Fragment() {
 
-    private var _binding: FragmentArticleBinding? = null
+    private var _binding: FragmentSavedArticleBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     private val viewModel by viewModel<NewsSavedViewModel>()
@@ -33,7 +33,7 @@ class NewsArticleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentArticleBinding.inflate(inflater, container, false)
+        return FragmentSavedArticleBinding.inflate(inflater, container, false)
             .also { binding ->
                 _binding = binding
             }
@@ -48,7 +48,7 @@ class NewsArticleFragment : Fragment() {
         with(binding) {
             ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
                 val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarArticle.updatePadding(
+                appBarSavedArticle.updatePadding(
                     top = inset.top,
                 )
                 insets
@@ -59,21 +59,21 @@ class NewsArticleFragment : Fragment() {
                 loadUrl(article.url)
             }
 
-            btnSaveArticle.setOnClickListener {
+            btnUnsaveArticle.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    viewModel.insertArticleToDB(article)
-                    Snackbar.make(view, getString(R.string.save_article), Snackbar.LENGTH_LONG)
+                    viewModel.deleteArticleFromDB(article)
+                    Snackbar.make(view, getString(R.string.delete_article), Snackbar.LENGTH_LONG)
                         .apply {
                             setAction(getString(R.string.undo)) {
                                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                                    viewModel.deleteArticleFromDB(article)
+                                    viewModel.insertArticleToDB(article)
                                 }
                             }
                             show()
                         }
                 }
+                toolbarSavedArticle.setupWithNavController(findNavController())
             }
-            toolbarArticle.setupWithNavController(findNavController())
         }
     }
 

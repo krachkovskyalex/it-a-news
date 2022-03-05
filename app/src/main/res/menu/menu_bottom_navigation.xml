@@ -12,6 +12,11 @@
         android:title="@string/bottom_menu_search_title" />
 
     <item
+        android:id="@+id/navigation_saved"
+        android:icon="@drawable/ic_saved"
+        android:title="@string/bottom_menu_saved_title" />
+
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/bottom_menu_settings_title" />

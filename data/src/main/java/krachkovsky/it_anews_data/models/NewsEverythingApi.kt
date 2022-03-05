@@ -2,9 +2,9 @@ package krachkovsky.it_anews_data.models
 
 import com.google.gson.annotations.SerializedName
 
-data class NewsApiEverything(
+data class NewsEverythingApi(
     @SerializedName("articles")
-    val newsApiArticles: List<NewsApiArticle>,
+    val newsArticlesApi: List<NewsArticleApi>,
     val status: String,
     val totalResults: Int
 )

@@ -3,9 +3,11 @@ package krachkovsky.it_anews_data.repository
 import krachkovsky.it_anews_data.api.NewsApi
 import krachkovsky.it_anews_data.mappers.toDomainModel
 import krachkovsky.it_anews_domain.models.NewsEverything
-import krachkovsky.it_anews_domain.repository.NewsRepository
+import krachkovsky.it_anews_domain.repository.NewsApiRepository
 
-class NewsRepositoryImpl(private val newsApi: NewsApi) : NewsRepository {
+class NewsApiRepositoryImpl(
+    private val newsApi: NewsApi
+) : NewsApiRepository {
 
     override suspend fun getAllNews(
         page: Int,

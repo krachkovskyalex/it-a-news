@@ -17,7 +17,7 @@ object Versions {
     const val paging3Version = "3.1.0"
     const val swipeRefreshVersion = "1.1.0"
     const val koinVersion = "3.1.5"
-    const val roomVersion = "2.4.1"
+    const val roomVersion = "2.4.2"
 }
 
 object Deps {
@@ -74,10 +74,13 @@ object Deps {
         "io.insert-koin:koin-android:${Versions.koinVersion}"
 
     // Room
-    const val room =
+    private const val room =
         "androidx.room:room-runtime:${Versions.roomVersion}"
     const val roomCompiler =
         "androidx.room:room-compiler:${Versions.roomVersion}"
+    private const val roomKtx =
+        "androidx.room:room-ktx:${Versions.roomVersion}"
 
     val retrofitLibraries = listOf(retrofit, retrofitGson)
+    val roomLibraries = listOf(room, roomKtx)
 }

@@ -2,7 +2,7 @@ package krachkovsky.it_anews_domain.repository
 
 import krachkovsky.it_anews_domain.models.NewsEverything
 
-interface NewsRepository {
+interface NewsApiRepository {
 
     suspend fun getAllNews(page: Int, pageSize: Int, newsCategory: String): NewsEverything
 

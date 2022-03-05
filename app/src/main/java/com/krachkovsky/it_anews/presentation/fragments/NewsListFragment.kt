@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.databinding.FragmentListBinding
-import com.krachkovsky.it_anews.presentation.adapter.NewsAdapter
+import com.krachkovsky.it_anews.presentation.adapter.AllNewsAdapter
 import com.krachkovsky.it_anews.presentation.adapter.NewsLoadStateAdapter
 import com.krachkovsky.it_anews.presentation.extention.addHorizontalSpaceDecoration
 import com.krachkovsky.it_anews.presentation.extention.onCategoryChanged
@@ -23,7 +23,6 @@ import com.krachkovsky.it_anews.presentation.viewmodel.NewsListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsListFragment : Fragment() {
@@ -34,11 +33,12 @@ class NewsListFragment : Fragment() {
     private val viewModel by viewModel<NewsListViewModel>()
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        NewsAdapter(requireContext()) { article ->
+        AllNewsAdapter(requireContext()) { article ->
             findNavController().navigate(
-                NewsListFragmentDirections.actionNewsListFragmentToNewsArticleFragment(
-                    article.url
-                )
+                R.id.action_newsListFragment_to_newsArticleFragment,
+                Bundle().apply {
+                    putSerializable("article", article)
+                }
             )
         }
     }
@@ -70,9 +70,9 @@ class NewsListFragment : Fragment() {
             ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.news_category_list,
-                R.layout.spinner_news_category_item
+                R.layout.spinner_news_item
             ).also { adapter ->
-                adapter.setDropDownViewResource(R.layout.spinner_news_category_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.spinner_news_dropdown_item)
                 spinnerCategory.adapter = adapter
             }
 
@@ -94,12 +94,12 @@ class NewsListFragment : Fragment() {
                 .onEach { adapter.refresh() }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
 
-            viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.newsFlow
                     .collectLatest(adapter::submitData)
             }
 
-            viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 adapter.onLoad(progress, swipeRefreshList, root)
             }
         }

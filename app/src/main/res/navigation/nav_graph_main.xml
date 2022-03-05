@@ -27,8 +27,8 @@
             tools:layout="@layout/fragment_article">
 
             <argument
-                android:name="url"
-                app:argType="string" />
+                android:name="article"
+                app:argType="krachkovsky.it_anews_domain.models.Article" />
         </fragment>
     </navigation>
 
@@ -54,9 +54,35 @@
             tools:layout="@layout/fragment_article">
 
             <argument
-                android:name="url"
-                app:argType="string" />
+                android:name="article"
+                app:argType="krachkovsky.it_anews_domain.models.Article" />
         </fragment>
+    </navigation>
+
+    <navigation
+        android:id="@+id/navigation_saved"
+        app:startDestination="@id/newsSavedFragment">
+
+        <fragment
+            android:id="@+id/newsSavedFragment"
+            android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSavedFragment"
+            android:label="NewsSavedFragment"
+            tools:layout="@layout/fragment_search">
+            <action
+                android:id="@+id/action_newsSavedFragment_to_newsSavedArticleFragment"
+                app:destination="@id/newsSavedArticleFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/newsSavedArticleFragment"
+            android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSavedArticleFragment"
+            android:label="NewsSavedArticleFragment"
+            tools:layout="@layout/fragment_saved_article">
+
+            <argument
+                android:name="article"
+                app:argType="krachkovsky.it_anews_domain.models.Article" />
+        </fragment>
+
     </navigation>
 
     <navigation

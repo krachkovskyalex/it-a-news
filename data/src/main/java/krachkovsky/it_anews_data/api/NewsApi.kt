@@ -1,6 +1,6 @@
 package krachkovsky.it_anews_data.api
 
-import krachkovsky.it_anews_data.models.NewsApiEverything
+import krachkovsky.it_anews_data.models.NewsEverythingApi
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,7 +15,7 @@ interface NewsApi {
         page: Int,
         @Query("pageSize")
         pageSize: Int
-    ): NewsApiEverything
+    ): NewsEverythingApi
 
     @GET("everything")
     suspend fun getEverything(
@@ -25,5 +25,5 @@ interface NewsApi {
         page: Int,
         @Query("pageSize")
         pageSize: Int
-    ): NewsApiEverything
+    ): NewsEverythingApi
 }

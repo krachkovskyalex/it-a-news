@@ -7,13 +7,20 @@
     <string name="fragment_article_title">News Article</string>
     <string name="fragment_list_title">News List</string>
     <string name="fragment_search_title">News Search</string>
+    <string name="fragment_saved_title">Saved news</string>
     <string name="fragment_settings_title">News Settings</string>
     <string name="fragment_settings_display_title">Display Settings</string>
     <string name="fragment_settings_language_title">Language Settings</string>
 
+    // Article
+    <string name="save_article">Article saved successfully</string>
+    <string name="delete_article">Successfully deleted article</string>
+    <string name="undo">Undo</string>
+
     // Bottom navigation
-    <string name="bottom_menu_search_title">Search</string>
     <string name="bottom_menu_home_title">Home</string>
+    <string name="bottom_menu_search_title">Search</string>
+    <string name="bottom_menu_saved_title">Saved</string>
     <string name="bottom_menu_settings_title">Settings</string>
 
     // Settings //
@@ -31,6 +38,7 @@
     <string name="no_author">No author</string>
     <string name="text_title">This article does not contain title</string>
     <string name="text_description">This article does not contain description</string>
+    <string name="no_search_request">No search results</string>
 
     // Category for Spinner on Home Screen
     <string-array name="news_category_list">

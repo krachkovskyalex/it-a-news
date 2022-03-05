@@ -6,41 +6,40 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.krachkovsky.it_anews.databinding.NewsItemBinding
-import java.io.Serializable
+import krachkovsky.it_anews_domain.models.Article
 
-class NewsAdapter(
+class SavedNewsAdapter(
     context: Context,
-    private val onArticleClicked: (krachkovsky.it_anews_domain.models.Article) -> Unit
-) : PagingDataAdapter<krachkovsky.it_anews_domain.models.Article, NewsViewHolder>(DIFF_CALLBACK),
-    Serializable {
+    private val onArticleClicked: (Article) -> Unit
+) : PagingDataAdapter<Article, SavedNewsViewHolder>(DIFF_CALLBACK) {
 
     private val layoutInflater = LayoutInflater.from(context)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        return NewsViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedNewsViewHolder {
+        return SavedNewsViewHolder(
             binding = NewsItemBinding.inflate(layoutInflater, parent, false),
             onArticleClicked = onArticleClicked
         )
     }
 
-    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SavedNewsViewHolder, position: Int) {
         getItem(position)?.let(holder::bind)
     }
 
     companion object {
 
         private val DIFF_CALLBACK =
-            object : DiffUtil.ItemCallback<krachkovsky.it_anews_domain.models.Article>() {
+            object : DiffUtil.ItemCallback<Article>() {
                 override fun areItemsTheSame(
-                    oldItem: krachkovsky.it_anews_domain.models.Article,
-                    newItem: krachkovsky.it_anews_domain.models.Article
+                    oldItem: Article,
+                    newItem: Article
                 ): Boolean {
                     return oldItem.url == newItem.url
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: krachkovsky.it_anews_domain.models.Article,
-                    newItem: krachkovsky.it_anews_domain.models.Article
+                    oldItem: Article,
+                    newItem: Article
                 ): Boolean {
                     return oldItem == newItem
                 }

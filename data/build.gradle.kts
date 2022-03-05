@@ -3,6 +3,7 @@ import com.example.buildsrc.Deps
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -54,6 +55,13 @@ dependencies {
 
     // Koin
     implementation(Deps.koin)
+
+    // Room
+    Deps.roomLibraries.forEach {
+        implementation(it)
+    }
+    annotationProcessor(Deps.roomCompiler)
+    kapt(Deps.roomCompiler)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

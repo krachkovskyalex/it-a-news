@@ -1,11 +1,11 @@
 package krachkovsky.it_anews_domain.usecase
 
 import krachkovsky.it_anews_domain.models.NewsEverything
-import krachkovsky.it_anews_domain.repository.NewsRepository
+import krachkovsky.it_anews_domain.repository.NewsApiRepository
 
-class GetNewsSearchUseCase(private val newsRepository: NewsRepository) {
+class GetNewsSearchUseCase(private val newsApiRepository: NewsApiRepository) {
 
     suspend operator fun invoke(page: Int, pageSize: Int, q: String): NewsEverything {
-        return newsRepository.getSearchNews(page, pageSize, q)
+        return newsApiRepository.getSearchNews(page, pageSize, q)
     }
 }

@@ -63,8 +63,9 @@
 
     <style name="SpinnerDropDownTextStyle" parent="SpinnerItemTextStyle">
         <item name="android:paddingStart">12dp</item>
+        <item name="android:textColor">?colorOnSecondary</item>
         <item name="android:background">?colorPrimaryVariant</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
 </resources>
