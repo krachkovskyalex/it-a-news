@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.presentation.extention.applySelectedAppLanguage
@@ -25,7 +26,8 @@ class NewsMainActivity : AppCompatActivity(R.layout.activity_main) {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
+        window.navigationBarColor =
+            ResourcesCompat.getColor(resources, R.color.primary_variant, theme)
 
         AppCompatDelegate.setDefaultNightMode(
             when (sharedPrefs.dayNightMode) {

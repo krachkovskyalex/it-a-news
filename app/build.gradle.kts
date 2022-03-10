@@ -76,6 +76,11 @@ dependencies {
     // Koin
     implementation(Deps.koin)
 
+    // Google Maps
+    implementation(Deps.mapsUtils)
+    implementation(Deps.servicesMaps)
+    implementation(Deps.servicesLocation)
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.test:core-ktx:1.4.0")
     testImplementation("org.robolectric:robolectric:4.6")

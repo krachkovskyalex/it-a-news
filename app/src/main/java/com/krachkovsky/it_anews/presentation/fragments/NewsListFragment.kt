@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,10 +12,8 @@ import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.databinding.FragmentListBinding
 import com.krachkovsky.it_anews.presentation.adapter.AllNewsAdapter
 import com.krachkovsky.it_anews.presentation.adapter.NewsLoadStateAdapter
-import com.krachkovsky.it_anews.presentation.extention.addHorizontalSpaceDecoration
-import com.krachkovsky.it_anews.presentation.extention.onCategoryChanged
-import com.krachkovsky.it_anews.presentation.extention.onLoad
-import com.krachkovsky.it_anews.presentation.extention.onRefreshListener
+import com.krachkovsky.it_anews.presentation.extention.*
+import com.krachkovsky.it_anews.presentation.updateStatusBarInsets
 import com.krachkovsky.it_anews.presentation.viewmodel.NewsListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
@@ -59,13 +54,7 @@ class NewsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
-                val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarList.updatePadding(
-                    top = inset.top,
-                )
-                insets
-            }
+            updateStatusBarInsets(root, appBarList)
 
             ArrayAdapter.createFromResource(
                 requireContext(),

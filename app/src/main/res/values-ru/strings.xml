@@ -7,6 +7,7 @@
     <string name="fragment_list_title">Список новостей</string>
     <string name="fragment_search_title">Поиск новостей</string>
     <string name="fragment_saved_title">Сохраненные новости</string>
+    <string name="fragment_map_title">Карта</string>
     <string name="fragment_settings_title">Настройки</string>
     <string name="fragment_settings_display_title">Режим экрана</string>
     <string name="fragment_settings_language_title">Выбор языка</string>
@@ -21,6 +22,7 @@
     <string name="bottom_menu_search_title">Поиск</string>
     <string name="bottom_menu_saved_title">Сохраненные</string>
     <string name="bottom_menu_settings_title">Настройки</string>
+    <string name="bottom_menu_map_title">Карта</string>
 
     // Settings //
     // Day/Night mode

@@ -20,4 +20,9 @@
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/bottom_menu_settings_title" />
+
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/ic_map"
+        android:title="@string/bottom_menu_map_title" />
 </menu>

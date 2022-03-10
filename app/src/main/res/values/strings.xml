@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">IT-A News</string>
 
+    <string name="google_map_api_key" translatable="false">AIzaSyAj3AqhGq9qgT9YT0StzxkwCwlSdQkTx9I</string>
+
     <string name="global_error">Something went wrong…</string>
 
     // Screens
@@ -8,6 +10,7 @@
     <string name="fragment_list_title">News List</string>
     <string name="fragment_search_title">News Search</string>
     <string name="fragment_saved_title">Saved news</string>
+    <string name="fragment_map_title">Map</string>
     <string name="fragment_settings_title">News Settings</string>
     <string name="fragment_settings_display_title">Display Settings</string>
     <string name="fragment_settings_language_title">Language Settings</string>
@@ -22,6 +25,7 @@
     <string name="bottom_menu_search_title">Search</string>
     <string name="bottom_menu_saved_title">Saved</string>
     <string name="bottom_menu_settings_title">Settings</string>
+    <string name="bottom_menu_map_title">Map</string>
 
     // Settings //
     // Day/Night mode

@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -15,6 +12,7 @@ import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.databinding.FragmentSettingsDisplayBinding
 import com.krachkovsky.it_anews.presentation.settings.manager.SharedPrefsManager
 import com.krachkovsky.it_anews.presentation.settings.model.DayNightMode
+import com.krachkovsky.it_anews.presentation.updateStatusBarInsets
 import org.koin.android.ext.android.inject
 
 class NewsSettingsDisplayFragment : Fragment(R.layout.fragment_settings_display) {
@@ -40,13 +38,7 @@ class NewsSettingsDisplayFragment : Fragment(R.layout.fragment_settings_display)
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
-                val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarSettingsDisplay.updatePadding(
-                    top = inset.top,
-                )
-                insets
-            }
+            updateStatusBarInsets(root, appBarSettingsDisplay)
 
             when (prefsManager.dayNightMode) {
                 DayNightMode.DAY -> radiobtnDay

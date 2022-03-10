@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.databinding.FragmentArticleBinding
+import com.krachkovsky.it_anews.presentation.updateStatusBarInsets
 import com.krachkovsky.it_anews.presentation.viewmodel.NewsSavedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -46,13 +44,7 @@ class NewsArticleFragment : Fragment() {
         val article = args.article
 
         with(binding) {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
-                val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarArticle.updatePadding(
-                    top = inset.top,
-                )
-                insets
-            }
+            updateStatusBarInsets(root, appBarArticle)
 
             webView.apply {
                 webViewClient = WebViewClient()

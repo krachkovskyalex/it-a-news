@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -34,19 +31,10 @@ class NewsMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
-                val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                mainBottomNavigation.updatePadding(
-                    bottom = inset.bottom
-                )
-                insets
-            }
-
             val navController =
                 (childFragmentManager.findFragmentById(R.id.nav_container_fragment_main) as NavHostFragment)
                     .navController
             mainBottomNavigation.setupWithNavController(navController)
-
         }
     }
 

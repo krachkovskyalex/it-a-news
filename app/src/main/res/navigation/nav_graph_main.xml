@@ -67,7 +67,7 @@
             android:id="@+id/newsSavedFragment"
             android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSavedFragment"
             android:label="NewsSavedFragment"
-            tools:layout="@layout/fragment_search">
+            tools:layout="@layout/fragment_saved">
             <action
                 android:id="@+id/action_newsSavedFragment_to_newsSavedArticleFragment"
                 app:destination="@id/newsSavedArticleFragment" />
@@ -114,4 +114,9 @@
             android:name="com.krachkovsky.it_anews.presentation.fragments.NewsSettingsLanguageFragment"
             android:label="@string/fragment_settings_language_title" />
     </navigation>
+
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="com.krachkovsky.it_anews.presentation.fragments.NewsMapFragment"
+        android:label="@string/fragment_map_title" />
 </navigation>

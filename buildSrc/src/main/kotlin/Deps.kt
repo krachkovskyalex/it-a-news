@@ -18,6 +18,9 @@ object Versions {
     const val swipeRefreshVersion = "1.1.0"
     const val koinVersion = "3.1.5"
     const val roomVersion = "2.4.2"
+    const val mapsUtilsVersion = "1.3.3"
+    const val serviceMapsVersion = "18.0.2"
+    const val serviceLocationVersion = "19.0.1"
 }
 
 object Deps {
@@ -80,6 +83,14 @@ object Deps {
         "androidx.room:room-compiler:${Versions.roomVersion}"
     private const val roomKtx =
         "androidx.room:room-ktx:${Versions.roomVersion}"
+
+    // Google Map
+    const val mapsUtils =
+        "com.google.maps.android:android-maps-utils:${Versions.mapsUtilsVersion}"
+    const val servicesMaps =
+        "com.google.android.gms:play-services-maps:${Versions.serviceMapsVersion}"
+    const val servicesLocation =
+        "com.google.android.gms:play-services-location:${Versions.serviceLocationVersion}"
 
     val retrofitLibraries = listOf(retrofit, retrofitGson)
     val roomLibraries = listOf(room, roomKtx)

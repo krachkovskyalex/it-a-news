@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.krachkovsky.it_anews.R
 import com.krachkovsky.it_anews.databinding.FragmentSettingsBinding
+import com.krachkovsky.it_anews.presentation.updateStatusBarInsets
 
 class NewsSettingsFragment : Fragment(R.layout.fragment_settings) {
 
@@ -33,13 +31,7 @@ class NewsSettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
-                val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarSettings.updatePadding(
-                    top = inset.top,
-                )
-                insets
-            }
+            updateStatusBarInsets(root, appBarSettings)
 
             cvDisplay.setOnClickListener {
                 findNavController()

@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,8 +16,11 @@ import com.krachkovsky.it_anews.presentation.extention.addHorizontalSpaceDecorat
 import com.krachkovsky.it_anews.presentation.extention.onLoad
 import com.krachkovsky.it_anews.presentation.extention.onRefreshListener
 import com.krachkovsky.it_anews.presentation.extention.onTextChanged
+import com.krachkovsky.it_anews.presentation.updateStatusBarInsets
 import com.krachkovsky.it_anews.presentation.viewmodel.NewsSearchViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsSearchFragment : Fragment() {
@@ -57,13 +57,7 @@ class NewsSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
-                val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                appBarSearch.updatePadding(
-                    top = inset.top,
-                )
-                insets
-            }
+            updateStatusBarInsets(root, appBarSearch)
 
             recyclerSearch.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = NewsLoadStateAdapter(),
