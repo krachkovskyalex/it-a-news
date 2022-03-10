@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_error">Что-то пошло не так…</string>
+
+    // Screens
+    <string name="fragment_article_title">Новость</string>
+    <string name="fragment_list_title">Список новостей</string>
+    <string name="fragment_search_title">Поиск новостей</string>
+    <string name="fragment_settings_title">Настройки</string>
+
+    // Bottom navigation
+    <string name="bottom_menu_search_title">Поиск</string>
+    <string name="bottom_menu_home_title">Главная</string>
+    <string name="bottom_menu_settings_title">Настройки</string>
+
+    // Settings //
+    // Day/Night mode
+    <string name="settings_day_night_mode_title">Режим экрана</string>
+    <string name="button_day_mode">Дневной</string>
+    <string name="button_night_mode">Ночной</string>
+    <string name="button_default_mode">Системный</string>
+    // Language
+    <string name="settings_language_mode_title">Язык</string>
+    <string name="button_language_en">Английский</string>
+    <string name="button_language_ru">Русский</string>
+
+    // News item
+    <string name="no_author">Нет автора</string>
+
+    // Category for Spinner on Home Screen
+    <string-array name="news_category_list">
+        <item>Главная</item>
+        <item>Бизнес</item>
+        <item>Развлечения</item>
+        <item>Здоровье</item>
+        <item>Наука</item>
+        <item>Спорт</item>
+        <item>Технологии</item>
+    </string-array>
+</resources>
